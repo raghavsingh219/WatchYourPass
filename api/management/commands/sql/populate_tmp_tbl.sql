@@ -1,23 +1,20 @@
---CREATE OR REPLACE PROCEDURE populate_tmp()
+--CREATE OR REPLACE PROCEDURE populate_tmp2(file_path text)
 --    language plpgsql
 --    as $$
 --    begin
 --        COPY tmp(email, domain, hash)
---        FROM '/tmp/tmp.txt'
+--        FROM :file_path
 --        DELIMITER ';';
 --
 --        commit;
 --    end;$$;
 
-CREATE OR REPLACE PROCEDURE populate_tmp()
+CREATE OR REPLACE PROCEDURE populate_tmp(file_path text)
     language plpgsql
     as $$
+    DECLARE STATEMENT TEXT;
     begin
-        COPY tmp(email, domain, hash)
-        FROM '/tmp/tmp.txt'
-        DELIMITER ';';
-        STATEMENT := 'COPY (select * from ' || quote_ident(tablename) || ') to ''savedir' || outname ||'.txt''';
-
+        STATEMENT := 'COPY tmp(email, domain, hash) FROM ' || quote_ident(file_path) || 'DELIMITER ";"';
         EXECUTE STATEMENT;
         commit;
     end;$$;

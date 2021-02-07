@@ -13,21 +13,6 @@ from django.db.utils import load_backend
 class Command(BaseCommand):
     help = 'Adds file data to db'
 
-    def _new_db_connection(alias='default'):
-        """Returns a new database connection.
-        Use with RawSQL to execute the query using new connection. If you run a
-        query in a new process, see users.helpers.timeout(), it will throw
-        "OperationalError: SSL error: decryption failed or bad record mac". You
-        can either (1) close the current connection and Django will create new one
-        or (2) use a new connection. Note that if you are inside a database
-        transaction, you cannot close the current connection.
-        """
-        connections.ensure_defaults(alias)
-        connections.prepare_test_settings(alias)
-        db = connections.databases[alias]
-        backend = load_backend(db['ENGINE'])
-        return backend.DatabaseWrapper(db, alias)
-
     def _create_and_populate_tmp_table_from_file(self,file_path,file_name,cursor):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         # read sql from tmp_tbl.sql and create tmp table
@@ -68,17 +53,6 @@ class Command(BaseCommand):
         parser.add_argument('file_path', type=str)
 
     def handle(self, *args, **kwargs):
-#
-#         cursor = connection.cursor()
-#         cursor.execute("create procedure abc() "+
-#             "language plpgsql "+
-# "as $$ "+
-# "begin "+
-# "insert into api_domain(domain,count) values('abc',10); "+
-# "commit; "+
-# "end;$$; ")
-
-
         start_time = time.time()
         file_path = kwargs['file_path']
         if os.path.exists(file_path):  # if file_path exists
@@ -94,7 +68,7 @@ class Command(BaseCommand):
                     lines.append(email+";"+domain+";"+hashedPassword)
 
                 tmp_file_name='tmp.txt'
-                tmp_file_path='/tmp'
+                tmp_file_path=file_path
 
                 with open(os.path.join(tmp_file_path,tmp_file_name), 'w') as f:
                     for line in lines:
