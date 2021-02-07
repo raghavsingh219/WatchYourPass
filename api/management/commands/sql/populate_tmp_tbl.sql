@@ -14,7 +14,7 @@ CREATE OR REPLACE PROCEDURE populate_tmp(file_path text)
     as $$
     DECLARE STATEMENT TEXT;
     begin
-        STATEMENT := 'COPY tmp(email, domain, hash) FROM ' || quote_ident(file_path) || 'DELIMITER ";"';
+        STATEMENT := 'COPY tmp(email, domain, hash) FROM ''' || file_path ||  ''' DELIMITER '';''';
         EXECUTE STATEMENT;
         commit;
     end;$$;

@@ -68,7 +68,7 @@ class Command(BaseCommand):
                     lines.append(email+";"+domain+";"+hashedPassword)
 
                 tmp_file_name='tmp.txt'
-                tmp_file_path=file_path
+                tmp_file_path=os.path.dirname(file_path)
 
                 with open(os.path.join(tmp_file_path,tmp_file_name), 'w') as f:
                     for line in lines:
