@@ -23,6 +23,7 @@ class Command(BaseCommand):
         with open(os.path.join(dir_path, 'sql/populate_tmp_tbl.sql'), 'r') as f:
             cursor.execute(f.read())
             cursor.execute("CALL populate_tmp('"+os.path.abspath(os.path.join(file_path,file_name))+"')")
+            os.remove(os.path.abspath(os.path.join(file_path,file_name)))
 
     def _populate_password_table(self,dir_path,cursor):
         with open(os.path.join(dir_path, 'sql/populate_password_table.sql'), 'r') as f:
@@ -51,6 +52,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('file_path', type=str)
+        parser.add_argument(
+            '--dir',
+            default=False,
+            help='specified path is a directory',
+        )
 
     def handle(self, *args, **kwargs):
         start_time = time.time()
