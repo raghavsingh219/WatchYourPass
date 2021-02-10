@@ -77,9 +77,11 @@ class Account(models.Model):
         return self.email
 
     class Meta:
-        unique_together = (("email", "domain"),)
         indexes = [
             models.Index(fields=['email']),
+        ]
+        constraints = [
+            models.UniqueConstraint(fields=['email','domain'],name='email_domain_unique')
         ]
 
     def save(self, *args, **kwargs):
