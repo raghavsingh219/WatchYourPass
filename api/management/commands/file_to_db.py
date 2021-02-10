@@ -39,7 +39,6 @@ class Command(BaseCommand):
         with open(os.path.join(dir_path, 'sql/populate_domain_table.sql'), 'r') as f:
             cursor.execute(f.read())
 
-        db.connections.close_all()
         t1=Thread(target=self._populate_password_table,args=(dir_path, cursor))
         t2=Thread(target=self._populate_account_table,args=(dir_path ,cursor))
 
