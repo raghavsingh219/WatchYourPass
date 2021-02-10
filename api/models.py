@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db import models
 
 class Domain(models.Model):
-    domain = models.CharField(max_length=60, unique=True,db_index=True)
+    domain = models.CharField(max_length=80, unique=True,db_index=True)
     count = models.IntegerField(blank=False, default=0)
 
     def __str__(self):
