@@ -3,7 +3,7 @@ from threading import Thread
 
 from django.core.management.base import BaseCommand, CommandError
 import os,time,hashlib,mmap,errno
-
+from django import db
 from django.db import connection, connections
 import re
 
@@ -40,13 +40,14 @@ class Command(BaseCommand):
         with open(os.path.join(dir_path, 'sql/populate_domain_table.sql'), 'r') as f:
             cursor.execute(f.read())
 
-        t1=Thread(target=self._populate_password_table,args=(dir_path, cursor))
-        t2=Thread(target=self._populate_account_table,args=(dir_path ,cursor))
+        db.connections.close_all()
+        p1=Process(target=self._populate_password_table,args=(dir_path, cursor))
+        p2=Process(target=self._populate_account_table,args=(dir_path ,cursor))
 
-        t1.start()
-        t2.start()
-        t1.join()
-        t2.join()
+        p1.start()
+        p2.start()
+        p1.join()
+        p2.join()
         with open(os.path.join(dir_path, 'sql/populate_relation_table.sql'), 'r') as f:
             cursor.execute(f.read())
 
