@@ -36,18 +36,17 @@ class Command(BaseCommand):
 
     def _populate_all_tables(self,cursor):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-
         with open(os.path.join(dir_path, 'sql/populate_domain_table.sql'), 'r') as f:
             cursor.execute(f.read())
 
         db.connections.close_all()
-        p1=Process(target=self._populate_password_table,args=(dir_path, cursor))
-        p2=Process(target=self._populate_account_table,args=(dir_path ,cursor))
+        t1=Thread(target=self._populate_password_table,args=(dir_path, cursor))
+        t2=Thread(target=self._populate_account_table,args=(dir_path ,cursor))
 
-        p1.start()
-        p2.start()
-        p1.join()
-        p2.join()
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
         with open(os.path.join(dir_path, 'sql/populate_relation_table.sql'), 'r') as f:
             cursor.execute(f.read())
 
