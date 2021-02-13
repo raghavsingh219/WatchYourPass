@@ -54,7 +54,7 @@ class BreachedSite(models.Model):
 
 
 class Password(models.Model):
-    hash = models.CharField(max_length=64, unique=True,db_index=True)
+    hash = models.CharField(max_length=100, unique=True,db_index=True)
     count = models.IntegerField(blank=False, default=1)
 
     def __str__(self):
@@ -67,7 +67,7 @@ class Password(models.Model):
 
 
 class Account(models.Model):
-    email = models.CharField(max_length=64, blank=False,db_index=True)
+    email = models.CharField(max_length=100, blank=False,db_index=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, default=0)
     breached_site = models.ManyToManyField(BreachedSite)
     passwords = models.ManyToManyField(Password)

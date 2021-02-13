@@ -1,4 +1,4 @@
-
+BEGIN;
 INSERT INTO api_domain(domain,count)
 SELECT domain,count(domain) as cnt
 FROM tmp group by(domain)
