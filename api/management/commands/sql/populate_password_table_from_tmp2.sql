@@ -30,12 +30,11 @@ BEGIN;
     INSERT INTO tmp2_api_password(hash,count)
     SELECT tmp_api_password.hash,tmp_api_password.count FROM tmp_api_password;
 
-    CREATE INDEX pwd_hash ON tmp2_api_password(hash);
+    CREATE INDEX IF NOT EXISTS pwd_hash ON tmp2_api_password(hash);
 
     INSERT INTO api_password(hash,count)
     SELECT hash,sum(count) as count FROM tmp2_api_password
     GROUP BY(hash);
-
 
     DROP INDEX pwd_hash;
 

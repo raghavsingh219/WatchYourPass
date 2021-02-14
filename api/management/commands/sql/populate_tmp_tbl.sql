@@ -8,7 +8,7 @@
 --
 --        commit;
 --    end;$$;
-DROP PROCEDURE populate_tmp(text);
+
 
 CREATE OR REPLACE PROCEDURE populate_tmp(file_path text)
     language plpgsql

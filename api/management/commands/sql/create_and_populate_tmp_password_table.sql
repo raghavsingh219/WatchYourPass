@@ -12,3 +12,4 @@ BEGIN;
     FROM tmp group by(hash);
 commit;
 
+
