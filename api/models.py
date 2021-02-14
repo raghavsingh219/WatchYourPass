@@ -54,7 +54,7 @@ class BreachedSite(models.Model):
 
 
 class Password(models.Model):
-    hash = models.CharField(max_length=100, unique=True,db_index=True)
+    hash = models.CharField(max_length=100, unique=True,db_index=False)
     count = models.IntegerField(blank=False, default=1)
 
     def __str__(self):
