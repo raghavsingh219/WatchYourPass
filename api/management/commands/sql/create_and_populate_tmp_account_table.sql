@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS tmp_api_account (
     count integer NOT NULL,
     CONSTRAINT tmp_api_account_fkey FOREIGN KEY(domain_id) REFERENCES api_domain(id)
 );
-TRUNCATE TABLE tmp_api_password;
+TRUNCATE TABLE tmp_api_account;
 BEGIN;
     INSERT INTO tmp_api_account(email,domain_id)
     SELECT email,count(domain_id) as cnt
