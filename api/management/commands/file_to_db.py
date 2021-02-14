@@ -28,8 +28,9 @@ class Command(BaseCommand):
             cursor.execute(f.read())
 
     def _populate_password_table(self,dir_path,cursor):
-        with open(os.path.join(dir_path, 'sql/populate_password_table.sql'), 'r') as f:
-            cursor.execute(f.read())
+        with open(os.path.join(dir_path, 'sql/create_and_populate_tmp_password.sql'), 'r') as tmp_pwd,open(dir_path, 'sql/create_tmp2_password.sql') as tmp2_pwd:
+            cursor.execute(tmp_pwd.read())
+            cursor.execute(tmp2_pwd.read())
 
     def _populate_account_table(self, dir_path, cursor):
         with open(os.path.join(dir_path, 'sql/populate_account_table.sql'), 'r') as f:
