@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.db import models
+from django.db import models, migrations
 
 
 class Domain(models.Model):
@@ -96,8 +96,9 @@ class Account(models.Model):
 
 
 class PasswordAccountRelation(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE,verbose_name='account_id')
-    password = models.ForeignKey(Password, on_delete=models.CASCADE,verbose_name='password_id')
+    account = models.ForeignKey(Account, on_delete=models.CASCADE,verbose_name='account_id',db_constraint=False)
+    password = models.ForeignKey(Password, on_delete=models.CASCADE,verbose_name='password_id',db_constraint=False)
 
     class Meta:
         unique_together = ['account_id', 'password_id']
+
