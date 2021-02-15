@@ -76,6 +76,7 @@ class Account(models.Model):
     email = models.CharField(max_length=100, blank=False, db_index=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, default=0)
     breached_site = models.ManyToManyField(BreachedSite)
+    passwords = models.ManyToManyField(Password,through='PasswordAccountRelation')
     count = models.IntegerField(blank=False, default=1)
 
     def __str__(self):
